@@ -1,0 +1,129 @@
+<?php
+include 'config.php';
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+$suggestions = $conn->query("SELECT * FROM suggestion");
+
+if (isset($_GET['delete'])) {
+    $id = $_GET['delete'];
+    $conn->query("DELETE FROM suggestion WHERE id = $id");
+    header("Location: suggestion.php");
+}
+
+if (isset($_GET['export_excel'])) {
+    // Code to export to Excel
+} elseif (isset($_GET['export_pdf'])) {
+    // Code to export to PDF
+} elseif (isset($_GET['export_word'])) {
+    // Code to export to Word
+}
+$conn->close();
+?>
+
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Suggestion Review</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-position: center;
+            background-image: url(image/TZ01.jpg);
+            background-size: cover;
+            margin: 0;
+            padding: 0;
+        }
+        header{
+            background:  #FCD116;  
+            height: 50px;
+        }
+
+        table {
+            width: 80%;
+            margin: 20px auto;
+            border-collapse: collapse;
+        }
+        table, td, th {
+            border: 1px solid black;
+            padding: 10px;
+        }
+        td{
+            background: green;
+            color: #fff;
+        }
+        th {
+            background: #FCD116;
+        }
+        a{
+            text-decoration: none;
+            color: #fff;
+            
+        }
+        h1{
+            background:  #FCD116;
+            color: #fff;
+            text-transform: uppercase;
+        }
+        button{
+        border-radius: 50px;
+        border: 2px solid yellow;
+        width: 150px;
+        padding: 15px 0;
+        text-align: center;
+        overflow: hidden;
+        font-weight: bold;
+        }
+        button a{
+            text-decoration: none;
+            color: #000;
+        }
+        footer{
+            background:  #FCD116;
+            height: 54px;
+        }
+        p{
+            margin-top: 35px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+    <h1>Suggestion Review</h1>
+    </header>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>firstname</th>
+            <th>Suggest Type</th>
+            <th>Suggestion</th>
+        </tr>
+        <?php if ($suggestions->num_rows > 0): ?>
+            <?php while ($row = $suggestions->fetch_assoc()): ?>
+                <tr>
+                    <td><?php echo $row['id']; ?></td>
+                    <td><?php echo $row['firstname']; ?></td>
+                    <td><?php echo $row['suggest_type']; ?></td>
+                    <td><?php echo $row['suggest']; ?></td>
+                </tr>
+            <?php endwhile; ?>
+        <?php else: ?>
+            <tr>
+                <td colspan="7">No suggestions found</td>
+            </tr>
+        <?php endif; ?>
+    </table>
+
+    <button><a href="form.php"><span>TOA MAONI YAKO</a></button>
+
+    <br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <br>
+    <footer>
+        <p>&copy;2024:Samia group</p>
+    </footer>
+</body>
+</html>

@@ -1,0 +1,164 @@
+<?php
+session_start();
+include 'config.php'; // Database connection file
+
+// Fetch current user data
+$id = 'id';
+$query = "SELECT * FROM user WHERE id = $id";
+$result = mysqli_query($conn, $query);
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') { 
+    $firstname = $_POST['firstname'];
+    $middlename = $_POST['middlename'];
+    $lastname = $_POST['lastname'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phonenumber = $_POST['phonenumber'];
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+
+    $sql = "UPDATE user SET firstname = '$firstname', middlename = '$middlename', lastname = '$lastname',
+    username = '$username', email = '$email', phonenumber = '$phonenumber', password = '$password', cpassword = '$cpassword' WHERE id = $id";
+    if ($conn->query($sql) === TRUE) { 
+        header("Location: admin.php"); 
+    } else { 
+        echo "Error: " . $conn->error; 
+    }
+}
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="">
+    <style>
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+}
+
+.profile-container {
+    width: 350px;
+    margin: 0 auto;
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    text-align: center;
+    color: #333;
+}
+
+#profile-view, #profile-edit {
+    margin-top: 20px;
+}
+
+button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+.hidden {
+    display: none;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input[type="text"], input[type="email"] {
+    width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+input[type="text"]:focus, input[type="email"]:focus {
+    border-color: #007bff;
+}
+
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <h2>User Profile</h2>
+        <div id="profile-view">
+            <div class="J03">
+                <div class="J04">
+                    <label>firstname</label>
+                    <input type="text" name="firstname" value="<?php echo $user['firstname']; ?>"><br><br>
+                    <label>middlename</label>
+                    <input type="text" name="middlename" value="<?php echo $user['middlename']; ?>"><br><br>
+                    <label>lastname</label>
+                    <input type="text" name="lastname" value="<?php echo $user['lastname']; ?>"><br><br>
+                    <label>username</label>
+                    <input type="text" name="username" value="<?php echo $user['username']; ?>"><br><br>
+                    <label>email</label>
+                    <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>"><br><br>
+                </div>
+                <div class="J05">
+                    <label>phonenumber</label>
+                    <input type="number" name="phonenumber" id="phonenumber" value="<?php echo $user['phonenumber']; ?>"><br><br>
+                    <label>identify_ID</label>
+                    <input type="number" name="identify_ID" id="identify_ID" value="<?php echo $user['identify_ID']; ?>"><br><br>
+                    <label>password</label>
+                    <input type="password" name="password" value="<?php echo $user['password']; ?>"><br><br>
+                
+                    <label></label>
+                    <input type="date" id="birthday" name="birthday" value="<?php echo $user['birthday']; ?>"><br><br>
+                </div>
+            </div>
+            <button id="edit-btn">Edit Profile</button>
+        </div>
+
+        <div id="profile-edit" class="hidden">
+            <form id="edit-profile-form" method="POST" action="profil.php">
+                <div class="J03">
+                    <div class="J04">
+                        <label></label>
+                        <input type="text" name="firstname" value="<?php echo $user['firstname']; ?>" placeholder="firstname"><br><br>
+                        <label></label>
+                        <input type="text" name="middlename" value="<?php echo $user['middlename']; ?>" placeholder="middlename"><br><br>
+                        <label></label>
+                        <input type="text" name="lastname" value="<?php echo $user['lastname']; ?>" placeholder="lastname"><br><br>
+                        <label></label>
+                        <input type="text" name="username" value="<?php echo $user['username']; ?>" placeholder="username"><br><br>
+                        <label></label>
+                        <input type="email" name="email" id="email" value="<?php echo $user['email']; ?>" placeholder="email"><br><br>
+                    </div>
+                    <div class="J05">
+                        <label></label>
+                        <input type="number" name="phonenumber" id="phonenumber" value="<?php echo $user['phonenumber']; ?>" placeholder="phone number"><br><br>
+                        <label></label>
+                        <input type="password" name="password" value="<?php echo $user['password']; ?>" placeholder="password"><br><br>
+                        <label></label>
+                        <input type="password" name="cpassword" value="<?php echo $user['cpassword']; ?>" placeholder="cpassword"><br><br>
+                    </div>
+                </div>
+                <button type="submit">Save Changes</button>
+                <button type="button" id="cancel-btn">Cancel</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="profile.js"></script>
+</body>
+</html>

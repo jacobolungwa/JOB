@@ -1,0 +1,118 @@
+<?php
+$servername = "localhost";
+$username = "root";
+$password = "";
+$dbname = "katib_db";
+
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+$suggestionCountResult = $conn->query("SELECT COUNT(*) as count FROM suggestion");
+$suggestionCount = $suggestionCountResult->fetch_assoc()['count'];
+
+$userCountResult = $conn->query("SELECT COUNT(*) as count FROM user");
+$userCount = $userCountResult->fetch_assoc()['count'];
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['add_suggestion'])) {
+    $conn->query("INSERT INTO suggestion (suggestion) VALUES ('New Suggestion')");
+    header("Location: ");
+}
+?>
+
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-image: url(image/TZ01.jpg);
+            background-position: center;
+            background-size: cover;
+            
+        }
+        .J01{
+            text-align: center;
+
+        }
+        #profile{
+                border-radius: 50px;
+        }
+        .J01 button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .J02{
+            margin-top: -100px;
+            background: rgb(6, 151, 6);
+            height: 545px;
+            width: 200px;
+        }
+        .J02 button{
+            border-radius: 50px;
+            height: 30px;
+            margin-top: 30px;
+            margin-left: 10px;
+        }
+        .J03{
+            background:  #FCD116;  ;
+            height: 50px
+        }
+        .J03 button{
+            margin-left: 90%;
+            margin-top:-40px;
+            border-radius: 50px;
+        }
+        .J03 h1{
+            text-align: center;
+        }
+        footer{
+            text-align: center;
+            background:   #FCD116;
+            color: #000;
+            height: 50px;
+            margin-top:-16px;
+        }
+    </style>
+</head>
+<body>
+    <div class="J03">
+        <h1>Admin Dashboard</h1>
+        <button onclick="location.href='index.php'">LOGOUT</button><br><br>
+    </div>
+    <div class="J01">
+        <button id="newSuggestionsBtn">New Suggestions: <span id="newSuggestionsCount"><?php echo $suggestionCount; ?></span></button>
+        <button id="totalUsersBtn">Total Users: <span id="totalUsersCount"><?php echo $userCount; ?></span></button>
+        <button id="profile" onclick="location.href='user_profile.php'">Profile</button>
+    </div><br><br>
+    <div class="J02">
+        <button onclick="location.href='all suggest.php'">All Suggestions</button><br><br>
+        <button onclick="location.href='excel.php'">Excel Report</button><br><br>
+        <button onclick="location.href='PDF.php'">PDF Report</button>
+
+    </div>
+
+    <form method="POST" style="display:none;">
+        <input type="hidden" name="add_suggestion">
+        <button type="submit">Add New Suggestion</button>
+    </form>
+
+</body>
+
+<footer>
+    <p>&copy;2024:Samia group</p>
+</footer>
+</html>
+
+<?php
+$conn->close();
+?>

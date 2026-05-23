@@ -1,0 +1,179 @@
+<DOCTYPE html>
+<html>
+    <head>
+        <title>suggestion</title>
+        <link rel="stylesheet" href="suggest.s">
+        <style>
+            body{
+    margin: 0;
+    padding: 0;
+    background-image: url(image/TZ01.jpg);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+}
+.T04{
+    background:  #FCD116;  
+    height: 50px;
+}
+.T04 ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 50px;
+    position: relative;
+    margin-top: 20px;
+}
+.T04 ul li a{
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+}
+p{
+    color: #fff;
+}
+h4{
+    text-transform: uppercase;
+    color: #fff;
+}
+.T05 select{
+    width: 30%;
+    padding: 7px;
+    border: none;
+}
+
+.T05 label{
+    margin-top: 30px;
+    font-size: 16px;
+    color: #fff;
+    text-transform: uppercase;
+    font-weight: bold;
+}
+
+.T05 textarea {
+    width: 600px;
+    height: 200px;
+    border-radius: none;
+}
+button{
+    width: 200px;
+    padding: 15px 0;
+    text-align: center;
+    margin: 20px 10px;
+    border-radius: 25px;
+    font-weight: bold;
+    border: 2px solid rgb(30, 30, 197);
+    background: transparent;
+    color: #fff;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    font-weight: bold;
+    text-transform: uppercase;
+    }
+    span{
+        background: green;
+        height: 100%;
+        width: 0%;
+        border-radius: 25px;
+        position: absolute;
+        left: 0;
+        bottom: 0;
+        z-index: -1;
+        transition: 0.3s;
+    }
+    button:hover span{
+        width: 100%;
+    }
+    button:hover{
+        border: none;
+    }
+    .popup{
+        width: 200px;
+        height: 100px;
+        background: rgb(247, 218, 56);
+        border-radius: 6px;
+        position: absolute;
+        top: 0%;
+        left: 50%;
+        transform: translate(-50%, -50%) 'scale(0.1)';
+        padding: 0 30px 30px;
+        visibility: hidden;
+        transition: transform 0.4s, top 0.4s;
+        margin-left: -10%;
+    }
+    .openpopup{
+        visibility: visible;
+        transform: translate(-50%, -50%) 'scale(0.1)';
+        top: 50%;
+    }
+    .popup h2{
+        font-size: 18px;
+        font-weight: 500;
+        margin: 30px 0 10px;
+    }
+    .popup button{
+        width: 100px;
+        margin-top: 50px;
+        padding: 10px 0;
+        border: 0;
+        font-size: 18px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: bold;
+        top: -25%;
+        color: green;
+    }
+
+    footer{
+        background:  #FCD116;  
+        height: 59px;
+    }
+        </style>
+    </head>
+    <body>
+        <header class="T04">
+            <ul>
+                <li><a href="index.php">HOME</a></li>
+                <li><a href="log in.php">MAONI</a></li>
+                <li><a href="">CONTACT</a></li>
+            </ul>
+        </header>
+
+        <p>Hii ni kwa raia wa nchi husika tu, watanzania tuipende nchi yetu na kuijenga kwa nguvu <br>
+        na kwa umoja wetu. watanzaniatutoe maoni kuhusiana na katiba yetu ya tanzania na hii ni kwa <br>
+        wale wenye umri kuanzia miaka 25 na kuandelea.</p>
+
+        <h4>kama una maoni kuhusu katiba ya tanzania, tafadhali andika hapa chini</h4>
+        <form  action="suggest_conn.php" method="POST">
+        <div class="T05">
+            <label>firstname</label>
+            <input type="firstname" name="firstname" id="firstname"><br><br> 
+
+            <label>email</label>
+            <input type="email" name="email" id="email"><br><br>
+
+            <label for="suggestion" name="suggest_type">suggestion</label>
+            <select id="suggest_type" name="suggest_type">
+                <option>select_here</option>
+                <option>coments</option>
+                <option>seggestions</option>
+                <option>complaints</option>
+            </select>
+            <br><br>
+            <textarea id="suggestion" name="suggest" rows="4" cols="50" required></textarea>
+            <br><br>
+            <button input type="submit" onclick="openpopup()"><span></span>tuma maoni yako</button>
+
+            <div class="popup" id="pop">
+                <h2>Asante kwa maoni yako</h2>
+                <button type="button" onclick="closepopup()">OK</button>
+            </div>
+        </div>
+        </form>
+        <script src="suggest.js"></script>
+    </body><br>
+    <footer>
+        <h5>&copy; from 1961, Tanzania yetu tuijenge kwa umoja na ushirikiano.</h5>
+        <p><a href="">tanzania yetu ni fahali yetu</a></p>
+    </footer>
+</html>

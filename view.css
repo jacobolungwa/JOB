@@ -1,0 +1,30 @@
+body{
+    background-image: url(image/TZ01.jpg);
+    background-position: center;
+    background-size: cover;
+}
+h4{
+    text-align: center;
+    text-transform: uppercase;
+    color: #fff;
+}
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    background: #fff;
+}
+
+table, th, td {
+    border: 1px solid #54f124;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+}
+
+th{
+    background-color:  #FCD116;  
+}
+

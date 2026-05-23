@@ -1,0 +1,53 @@
+*{
+    padding: 0;
+    margin: 0;
+}
+body{
+    background-image: url(image/TZ01.jpg);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+}
+.container{
+    display: flex;
+    justify-content: space-between;
+   
+    background-color: rgb(247, 218, 56);
+    height: 50px;
+}
+.container p{
+    font-size: 18px;
+    font-weight: bold;
+    margin-left: 20px;
+    margin-top: 20px;
+}
+.T02 button{
+        width: 150px;
+        height: 45px;
+        font-size: 15px;
+        font-weight: bold;
+        border-radius: 30px;
+        text-align: center;
+}
+.T02 a{
+    font-size: 18px;
+    font-weight: bold;
+    margin-right: 100px;
+    text-decoration: none;
+    margin-top: 20px;
+
+}
+.T01{
+    margin-top: 70px;
+    
+}
+.T01 button{
+    width: 150px;
+    height: 45px;
+    font-size: 15px;
+    font-weight: bold;
+    border-radius: 30px;
+}
+.T01 button a{
+    text-decoration: none;
+}

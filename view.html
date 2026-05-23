@@ -1,0 +1,178 @@
+<?php
+session_start();
+include("config.php");
+
+$results_per_page = 5;
+
+$sql = "SELECT * FROM suggestion";
+$query = mysqli_query($conn, $sql);
+$number_of_results = mysqli_num_rows($query);
+
+$number_of_pages = ceil($number_of_results / $results_per_page);
+
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
+$start_limit = ($page - 1) * $results_per_page;
+
+$sql = "SELECT * FROM suggestion LIMIT $start_limit, $results_per_page";
+$query = mysqli_query($conn, $sql);
+?>
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>View Data</title>
+        <link rel="stylesheet" href="view.css">
+        <style>
+            body {
+                margin: 0;
+                padding: 0;
+                background-image: url(image/TZ01.jpg);
+                background-position: center;
+                background-size: cover;
+            }
+            h4 {
+                text-align: center;
+                text-transform: uppercase;
+                color: #fff;
+            }
+            table {
+                width: 80%;
+                margin: 20px auto;
+                border-collapse: collapse;
+                background: #fff;
+            }
+            table, th, td {
+                border: 1px solid #54f124;
+            }
+            th, td {
+                padding: 12px;
+                text-align: left;
+            }
+            th {
+                background-color: #FCD116;
+            }
+            .container {
+                display: flex;
+            }
+            .J01 {
+                width: 200px;
+                background: rgb(6, 151, 6);
+                height: 590px;
+            }
+            button {
+                width: 150px;
+                height: 45px;
+                font-size: 15px;
+                font-weight: bold;
+                border-radius: 30px;
+                margin-left: 6px;
+                margin-top: 20px;
+            }
+            .J01 button a {
+                text-decoration: none;
+                color: black;
+            }
+            .J02 {
+                width: 900px;
+                margin-left: 20px;
+            }
+            .pagination a {
+                color: black;
+                padding: 8px 16px;
+                text-decoration: none;
+                border: 1px solid #ddd;
+                margin: 0 2px;
+                background: #FCD116;
+                font-weight: bold;
+                border-radius: 50px;
+            }
+            .pagination a:hover {
+                background-color: #ddd;
+            }
+            input {
+                margin-left: 80%;
+                padding: 5px;
+            }
+            footer {
+                margin-top: -56px;
+                background: #FCD116;
+                height: 51px;
+                text-align: center;
+            }
+            p {
+                margin-top: 20px;
+                text-align: center;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="container">
+            <div class="J01">
+                <button><a href="dashboard.php">Back</a></button><br>
+
+            </div>
+            
+            <div class="J02">
+                <h4>Asante kwa kuchangia maoni yako.</h4>
+
+                
+                <table>
+                    <thead>
+                        <tr>
+                            <th>id</th>
+                            <th>email</th>
+                            <th>suggest_type</th>
+                            <th>suggestion</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php
+                        while($row = mysqli_fetch_assoc($query)){
+                            echo "<tr>";
+                                echo "<td>" . $row['id'] . "</td>";
+                                echo "<td>" . $row['email'] . "</td>";
+                                echo "<td>" . $row['suggest_type'] . "</td>";
+                                echo "<td>" . $row['suggest'] . "</td>";
+                            echo "</tr>";
+                        }
+                        ?>
+                    </tbody>
+                </table>
+
+                <div class="pagination">
+                    <?php
+                    for ($i = 1; $i <= $number_of_pages; $i++) {
+                        echo '<a href="view.php?page=' . $i . '">' . $i . '</a> ';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+<br><br>
+        <footer>
+            <p>&copy; 2024: Samia group</p>
+        </footer>
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function(){
+                $('#search').on('keyup', function(){
+                    var query = $(this).val();
+                    if (query.length > 2) {
+                        $.ajax({
+                            url: "search-config.php",
+                            type: "POST",
+                            data: {'query': query},
+                            success: function(data){
+                                $('#result').html(data);
+                            }
+                        });
+                    } else {
+                        $('#result').html('');
+                    }
+                });
+            });
+        </script>
+    </body>
+</html>

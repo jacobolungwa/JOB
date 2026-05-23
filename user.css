@@ -1,0 +1,114 @@
+body{
+    text-align: center;
+    background-position: center;
+    background-image: url(image/TZ01.jpg);
+    background-size: cover;
+    margin: 0;
+    padding: 0;
+    }
+    .J01{
+        background-color: rgb(247, 218, 56); 
+        height: 50px;
+    }
+    .J01 ul li{
+        list-style: none;
+        display: inline-block;
+        margin: 0 50px;
+        position: relative;
+        margin-top: 20px;
+    }
+    .J01 ul li a{
+        text-decoration: none;
+        color: #000;
+        text-transform: uppercase;
+        
+    }
+    .J02{
+        width: 85%;
+        height: 50px;
+        margin: auto;
+        padding: 40% 0;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    .log{
+        width: 100px;
+        cursor: pointer;
+    }
+    
+    .J03{
+        display: flex;
+        justify-content: space-between;
+    }
+    form{
+        width: 800px;
+        margin: auto;
+        border-radius: 3px;
+        
+    }
+    .J04{
+        background: #fff;
+        width: 400px;
+        height: 350px;
+    }
+    .J04 label{
+        display: flex;
+        margin-top: 20px;
+        font-size: 16px;
+        color: black;
+        margin-left: 20px;
+    }
+    .J04 input{
+        margin-left: 15px;
+        width: 80%;
+        padding: 7px;
+        border: none;
+        border: 1px solid rgb(204, 204, 12);
+        border-radius: 6px;
+        outline: none;
+    }
+    .j05{
+        background: #fff;
+        width: 400px;
+    }   
+    .J05 label{
+        display: flex;
+        margin-top: 20px;
+        font-size: 16px;
+        color: black;
+        margin-left: 20px;
+    }
+    .J05 input{
+        margin-left: 15px;
+        width: 80%;
+        padding: 7px;
+        border: none;
+        border: 1px solid rgb(204, 204, 12);
+        border-radius: 6px;
+        outline: none;
+    }
+    h4{
+        color: #fff;
+        text-transform: uppercase;
+    }
+    h5{
+        color: #fff;
+    }
+    button{
+        width: 320px;
+        height: 35px;
+        margin-top: 20px;
+        border: none;
+        background: rgb(204, 204, 12);
+        color: black;
+        font-size: 20px;
+    }
+    p{
+        color: black;
+    }
+    p a{
+        text-decoration: none;
+        color: black;
+        text-transform: uppercase;
+    }

@@ -1,0 +1,83 @@
+<?php
+include 'config.php';
+
+// Fetching data from the 'user' table
+$sql = "SELECT * FROM user";
+$result = $conn->query($sql);
+
+$data = [];
+if ($result->num_rows > 0) {
+    while ($row = $result->fetch_assoc()) {
+        $data[] = $row;
+    }
+} else {
+    echo "No data recorded";
+    exit;
+}
+$conn->close();
+
+// Exporting data to Word
+if (isset($_POST['export_word'])) {
+    header("Content-Type: application/vnd.ms-word");
+    header("Content-Disposition: attachment; filename=user_word.doc");
+
+    echo "<html>";
+    echo "<body>";
+    echo "<table border='1'>";
+
+    // Table headers
+    echo "<tr><th>id</th><th>firstname</th><th>middlename</th><th>lastname</th><th>phonenumber</th><th>email</th></tr>";
+
+    // Table data
+    foreach ($data as $row) {
+        echo "<tr>";
+        echo "<td>" . $row['id'] . "</td>";
+        echo "<td>" . $row['firstname'] . "</td>";
+        echo "<td>" . $row['middlename'] . "</td>";
+        echo "<td>" . $row['lastname'] . "</td>";
+        echo "<td>" . $row['phonenumber'] . "</td>";
+        echo "<td>" . $row['email'] . "</td>";
+        echo "</tr>";
+    }
+
+    echo "</table>";
+    echo "</body>";
+    echo "</html>";
+
+    exit;
+}
+?>
+<DOCTYPE html>
+    <html>
+        <head>
+            <title>export data</title>
+            <style>
+                body{
+                    margin: 0;
+                    padding: 0;
+                    background-image: url(image/TZ01.jpg);
+                    background-position: center;
+                    background-size: cover;
+                    text-align: center;
+                }
+                button {
+                    padding: 10px 20px;
+                    margin: 10px;
+                    font-size: 16px;
+                    cursor: pointer;
+                    background: green;
+                    color: #fff;
+                    text-transform: uppercase;
+                    border-radius: 50px;
+                    width: 200px;
+                    margin-top: 20%;  
+                }
+            </style>
+        </head>
+        <body>
+            <form method="POST">
+            <button input type="submit" name="export word" value="export to word">export to word</button>
+
+            </form>
+        </body>
+    </html>

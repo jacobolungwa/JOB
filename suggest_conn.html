@@ -1,0 +1,73 @@
+<?php
+
+ini_set('display_errors', 1);
+ini_set('display_startup_errors', 1);
+error_reporting(E_ALL);
+
+$servername = "localhost"; 
+$username = "root"; 
+$password = ""; 
+$dbname = "katib_db"; 
+
+// Create connection
+$conn = new mysqli($servername, $username, $password, $dbname);
+
+// Check connection
+if ($conn->connect_error) {
+    die("Connection failed: " . $conn->connect_error);
+}
+
+// Check if the form was submitted
+if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    
+    // Fetch form data and sanitize inputs
+    $firstname = $_POST["firstname"];
+    $email = $_POST['email'];
+    $suggest_type = $_POST['suggest_type'];
+    $suggest = $_POST['suggest'];
+
+    // Prepare the SELECT statement to check if the email exists
+    $sql = "SELECT * FROM user WHERE email=?";
+    $stmt_check = $conn->prepare($sql);
+
+    if ($stmt_check === false) {
+        die('Prepare failed: ' . htmlspecialchars($conn->error));
+    }
+
+    $stmt_check->bind_param("s", $email);
+    $stmt_check->execute();
+    $result = $stmt_check->get_result();
+
+    // Check if email exists
+    if ($result->num_rows > 0) {
+        // Prepare the INSERT statement
+        $stmt_insert = $conn->prepare("INSERT INTO suggestion (firstname, email, suggest_type, suggest) VALUES (?, ?, ?, ?)");
+
+        if ($stmt_insert === false) {
+            die('Prepare failed: ' . htmlspecialchars($conn->error));
+        }
+
+        // Bind parameters for the INSERT statement
+        $stmt_insert->bind_param("ssss", $firstname, $email, $suggest_type, $suggest);
+
+        // Execute statement and check for errors
+        if ($stmt_insert->execute()) {
+            header("Location: index.php");
+            exit(); // Always exit after a redirect to stop further code execution
+        } else {
+            echo "Error: " . htmlspecialchars($stmt_insert->error);
+        }
+
+        // Close the insert statement
+        $stmt_insert->close();
+    } else {
+        echo "Error: Email not found.";
+    }
+
+    // Close the check statement
+    $stmt_check->close();
+}
+
+// Close the connection
+$conn->close();
+?>

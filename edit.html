@@ -1,0 +1,72 @@
+<?php
+include 'config.php';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    
+    $result = $conn->query("SELECT * FROM suggestion WHERE id = $id");
+    $suggestion = $result->fetch_assoc();
+}
+
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    $suggest_type = $_POST['suggest_type'];
+    $updated_suggestion = $_POST['suggest'];
+    $conn->query("UPDATE suggestion SET suggest_type = '$suggest_type', suggest = '$updated_suggestion' WHERE id = $id");
+    header("Location: all suggest.php");
+}
+
+$conn->close();
+?>
+
+<DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Suggestion</title>
+    <style>
+        body{
+    margin: 0;
+    padding: 0;
+    background-image: url(image/TZ01.jpg);
+    background-position: center;
+    background-size: cover;
+    text-align: center;
+}
+h1{
+    color: #fff;
+}
+label{
+    color: #fff;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+textarea {
+    width: 600px;
+    height: 200px;
+    border: none;
+}
+button{
+    width: 320px;
+    height: 35px;
+    margin-top: 20px;
+    border: none;
+    background:  #FCD116;  
+    color: black;
+    font-size: 20px;
+    border-radius: 50px;
+}
+    </style>
+</head>
+<body>
+    <h1>Edit Suggestion</h1>
+    <form method="POST">
+        <label for="suggest_type">Suggest Type:</label>
+        <input type="text" name="suggest_type" value="<?php echo $suggestion['suggest_type']; ?>"><br><br>
+        <label for="suggestion">Suggestion:</label><br>
+        <textarea name="suggest"><?php echo $suggestion['suggest']; ?></textarea><br><br>
+        <button type="submit">Save</button>
+    </form>
+    <button onclick="location.href='all suggest.php'">Cancel</button>
+</body>
+</html>

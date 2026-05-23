@@ -1,0 +1,93 @@
+<?php
+// Include the database configuration file
+include("config.php");
+
+// Check if the export button was clicked for Excel
+if (isset($_POST['export_excel'])) {
+    // Set the headers for Excel export
+    header("Content-Type: application/vnd.ms-excel");
+    header("Content-Disposition: attachment; filename=suggestion_data.xls");
+
+    // Output the headers for the Excel columns
+    echo "id\tsuggestion_type\tSuggestion\n";
+
+    // Fetch data from the database
+    $query = "SELECT id, suggest_type, suggestion FROM suggestion";
+    $result = mysqli_query($conn, $query);
+
+    // Check if data exists and output it
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo $row['id'] . "\t" . $row['suggest_type'] . "\t" . $row['suggestion'] . "\n";
+        }
+    }
+
+    // Exit the script to prevent further output
+    exit();
+}
+
+// Check if the export button was clicked for Word
+if (isset($_POST['export_word'])) {
+    // Set the headers for Word export
+    header("Content-Type: application/vnd.ms-word");
+    header("Content-Disposition: attachment; filename=suggestion_data.doc");
+
+    // Output the headers for the Word document
+    echo "<html><body><table border='1'>";
+    echo "<tr><th>ID</th><th>Suggest Type</th><th>Suggestion</th></tr>";
+
+    // Fetch data from the database
+    $query = "SELECT id, suggest_type, suggestion FROM suggestion";
+    $result = mysqli_query($conn, $query);
+
+    // Check if data exists and output it
+    if (mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            echo "<tr>";
+            echo "<td>" . $row['id'] . "</td>";
+            echo "<td>" . $row['suggest_type'] . "</td>";
+            echo "<td>" . $row['suggestion'] . "</td>";
+            echo "</tr>";
+        }
+    }
+    
+    echo "</table></body></html>";
+
+    // Exit the script to prevent further output
+    exit();
+}
+?>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generate_Reports</title>
+    <style>
+        body{
+            background-color: #2c3e50;
+        }
+        button{
+        margin-left:600px;
+        margin-top:75px;
+        padding: 10px 40px;
+        cursor: pointer; 
+        font-size: 18px;
+        font-weight: 50;
+        border-radius: 30px;
+        background:green;
+        border: 0;
+        outline: none;
+        font-size: 18px;
+        border-radius: 50px;
+        grid-gap: 5px;;
+        }
+    </style>
+</head>
+<body>
+<form method="post">
+    <button type="submit" name="export_excel">Export to Excel</button>
+    <button type="submit" name="export_word">Export to Word</button>
+</form>
+</body>
+</html>

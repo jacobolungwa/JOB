@@ -1,0 +1,93 @@
+<?php
+include 'config.php';
+
+if(isset($_POST['signUp'])){
+    $firstname = $_POST['firstname'];
+    $middlename = $_POST['middlename'];
+    $lastname = $_POST['lastname'];
+    $username = $_POST['username'];
+    $email = $_POST['email'];
+    $phonenumber = $_POST['phonenumber'];
+    $identify_ID = $_POST['identify_ID'];
+    $password = $_POST['password'];
+    $cpassword = $_POST['cpassword'];
+    $birthday = $_POST['birthday'];
+
+    // Validate email, phone, and ID uniqueness
+    $checkEmail = "SELECT * FROM user WHERE email = ? OR phonenumber = ? OR identify_ID = ?";
+    $stmt = $conn->prepare($checkEmail);
+    $stmt->bind_param("sss", $email, $phonenumber, $identify_ID);
+    $stmt->execute();
+    $result = $stmt->get_result();
+
+    if($result->num_rows > 0){
+        echo "<script>alert('Email, phone number, or ID already exists!');</script>";
+        exit();
+    }
+
+    $errors = [];
+
+    // Validations
+    if (empty($firstname) || !preg_match("/^[A-Za-z]+$/", $firstname)) {
+        $errors[] = "First Name is required and should only contain letters.";
+    }
+
+    if (empty($middlename) || !preg_match("/^[A-Za-z]+$/", $middlename)) {
+        $errors[] = "Middle Name is required and should only contain letters.";
+    }
+
+    if (empty($lastname) || !preg_match("/^[A-Za-z]+$/", $lastname)) {
+        $errors[] = "Last Name is required and should only contain letters.";
+    }
+
+    if (empty($username) || !preg_match("/^[A-Za-z0-9_]{3,}$/", $username)) {
+        $errors[] = "Username is required and should be at least 3 characters long with only letters, numbers, and underscores.";
+    }
+
+    if (empty($email) || !preg_match("/^[a-zA-Z0-9._%+-]+@gmail\.com$/", $email)) {
+        $errors[] = "A valid Gmail address is required (e.g., user@gmail.com).";
+    }
+
+    if (empty($phonenumber) || !preg_match("/^\d{10,15}$/", $phonenumber)) {
+        $errors[] = "Phone number is required and should contain only digits (10-15 characters long).";
+    }
+    
+    if (empty($identify_ID) || !preg_match("/^\d{8,12}$/", $identify_ID)) {
+        $errors[] = "Identify ID is required and should be 8-12 digits long.";
+    }
+
+    if (empty($password) || strlen($password) < 6) {
+        $errors[] = "Password is required and should be at least 6 characters long.";
+    }
+
+    if ($password != $cpassword) {
+        $errors[] = "Passwords do not match.";
+    }
+
+    if (count($errors) > 0) {
+        foreach ($errors as $error) {
+            echo "<script>alert('$error');</script>";
+        }
+        exit(); 
+    }
+
+    // Use password_hash for better security
+    $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+    // Prepare the insert query
+    $insertQuery = "INSERT INTO user (firstname, middlename, lastname, username, email, phonenumber, identify_ID, password, birthday) 
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+
+    $stmt = $conn->prepare($insertQuery);
+    $stmt->bind_param("sssssssss", $firstname, $middlename, $lastname, $username, $email, $phonenumber, $identify_ID, $hashedPassword, $birthday);
+
+    if($stmt->execute()){
+        header("location: suggestion.php");
+    } else {
+        echo "<script>alert('There was an error during sign up. Please try again.');</script>";
+    }
+
+    $stmt->close();
+    $conn->close();
+}
+?>

@@ -1,0 +1,16 @@
+<?php
+
+$host="localhost";
+$user="root";
+$password="";
+$database="katib_db";
+
+$conn=new mysqli($host,$user,$password,$database);
+
+if($conn->connect_error){
+
+    echo "failed to connect database". $conn->connect_error;
+
+}
+
+?>

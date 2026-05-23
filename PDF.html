@@ -1,0 +1,85 @@
+<?php
+require('fpdf185/fpdf.php');
+include 'config.php';
+
+if (isset($_GET['id'])) {
+    $id = $_GET['id'];
+    $result = $conn->query("SELECT * FROM user WHERE id = $id");
+    if ($result->num_rows > 0) {
+        $data = $result->fetch_assoc();
+
+        class PDF extends FPDF
+        {
+            function Header()
+            {
+                
+                $this->SetFont('Arial', 'B', 14);
+                $this->Cell(0, 10, 'User Details', 0, 1, 2, 3, 4, 5, 6, 'C');
+                $this->Ln(10);
+            }
+
+            function Footer()
+            {
+                
+                $this->SetY(-15);
+                $this->SetFont('Arial', 'I', 8);
+                $this->Cell(0, 10, 'Page ' . $this->PageNo(), 0, 0, 'C');
+            }
+
+            function userTable($data)
+            {
+                
+                $this->SetFont('Arial', '', 12);
+                foreach ($data as $key => $value) {
+                    $this->Cell(50, 10, ucfirst(str_replace('_', ' ', $key)) . ':', 1);
+                    $this->Cell(0, 10, $value, 1);
+                    $this->Ln();
+                }
+            }
+        }
+
+        $pdf = new PDF();
+        $pdf->AddPage();
+        $pdf->userTable($data);
+        $pdf->Output('D', 'user.pdf');
+    } else {
+        echo "No user found with ID: $id";
+    }
+}
+$conn->close();
+?>
+
+<DOCTYPE html>
+<html>
+<head>
+    <title>Export Data</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background-image: url(image/TZ01.jpg);
+            background-position: center;
+            background-size: cover;
+            text-align: center;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background: green;
+            color: #fff;
+            text-transform: uppercase;
+            border-radius: 50px;
+            width: 200px;
+            margin-top: 20%;  
+        }
+    </style>
+</head>
+<body>
+    <form method="GET" action="">
+        <input type="hidden" name="id" value="1">
+        <button type="submit" name="generate_pdf" value="Generate PDF">Generate PDF</button>
+    </form>
+</body>
+</html>

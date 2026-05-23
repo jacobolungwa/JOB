@@ -1,0 +1,74 @@
+body{
+text-align: center;
+background-position: center;
+background-image: url(image/TZ01.jpg);
+background-size: cover;
+margin: 0;
+padding: 0;
+}
+.T01{
+    background-color: #FCD116;    
+    height: 50px;
+}
+.T01 ul li{
+    list-style: none;
+    display: inline-block;
+    margin: 0 50px;
+    position: relative;
+    margin-top: 20px;
+}
+.T01 ul li a{
+    text-decoration: none;
+    color: #000;
+    text-transform: uppercase;
+    
+}
+.T02{
+    width: 85%;
+    height: 50px;
+    margin: auto;
+    padding: 40px 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.log{
+    width: 100px;
+    cursor: pointer;
+}
+
+h4{
+    color: #fff;
+}
+
+
+button{
+    border-radius: 25%;
+    border: 2px solid yellow;
+    width: 150px;
+    padding: 15px 0;
+    text-align: center;
+    overflow: hidden;
+ 
+}
+button a{
+    text-decoration: none;
+    color: #000;
+    
+}
+
+p{  
+    color: #fff;
+    height: 50px;
+    font-size: 20px;
+    text-transform: uppercase;
+    margin-top: 20px;
+    
+}
+footer{
+    margin-top: 30px;
+}
+footer h5{
+    color: rgb(26, 107, 26);
+    
+}
